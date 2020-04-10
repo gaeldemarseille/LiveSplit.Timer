@@ -277,6 +277,12 @@ namespace LiveSplit.UI.Components
             else if (Settings.TimingMethod == "Game Time")
                 timingMethod = TimingMethod.GameTime;
 
+            var timingSystem = TimeSystem.Standard;
+            if (Settings.TimingSystem == "Standard")
+                timingSystem = TimeSystem.Standard;
+            else if (Settings.TimingSystem == "Decimal")
+                timingSystem = TimeSystem.Decimal;
+
             var timeValue = GetTime(state, timingMethod);
 
             if (timeValue == null && timingMethod == TimingMethod.GameTime)
@@ -284,7 +290,7 @@ namespace LiveSplit.UI.Components
 
             if (timeValue != null)
             {
-                var timeString = Formatter.Format(timeValue, CurrentTimeFormat);
+                var timeString = Formatter.Format(timeValue, CurrentTimeFormat, timingSystem);
                 int dotIndex = timeString.IndexOf(".");
                 BigTextLabel.Text = timeString.Substring(0, dotIndex);
                 if (CurrentAccuracy == TimeAccuracy.Hundredths)

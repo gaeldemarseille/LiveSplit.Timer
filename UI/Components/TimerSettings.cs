@@ -47,6 +47,7 @@ namespace LiveSplit.UI.Components
         public bool ShowGradient { get; set; }
 
         public string TimingMethod { get; set; }
+        public string TimingSystem { get; set; }
 
         public Color BackgroundColor { get; set; }
         public Color BackgroundColor2 { get; set; }
@@ -73,6 +74,7 @@ namespace LiveSplit.UI.Components
             BackgroundGradient = DeltasGradientType.Plain;
             CenterTimer = false;
             TimingMethod = "Current Timing Method";
+            TimingSystem = "Standard";
             DecimalsSize = 35f;
 
             btnTimerColor.DataBindings.Add("BackColor", this, "TimerColor", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -83,6 +85,7 @@ namespace LiveSplit.UI.Components
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
             chkCenterTimer.DataBindings.Add("Checked", this, "CenterTimer", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbTimingMethod.DataBindings.Add("SelectedItem", this, "TimingMethod", false, DataSourceUpdateMode.OnPropertyChanged);
+            cmbTimingSystem.DataBindings.Add("SelectedItem", this, "TimingSystem", false, DataSourceUpdateMode.OnPropertyChanged);
             trkDecimalsSize.DataBindings.Add("Value", this, "DecimalsSize", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbDigitsFormat.DataBindings.Add("SelectedItem", this, "DigitsFormat", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbAccuracy.DataBindings.Add("SelectedItem", this, "Accuracy", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -101,6 +104,11 @@ namespace LiveSplit.UI.Components
         void cmbTimingMethod_SelectedIndexChanged(object sender, EventArgs e)
         {
             TimingMethod = cmbTimingMethod.SelectedItem.ToString();
+        }
+
+        void cmbTimingSystem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TimingSystem = cmbTimingSystem.SelectedItem.ToString();
         }
 
         void chkOverrideTimerColors_CheckedChanged(object sender, EventArgs e)
@@ -175,6 +183,7 @@ namespace LiveSplit.UI.Components
             GradientString = SettingsHelper.ParseString(element["BackgroundGradient"], DeltasGradientType.Plain.ToString());
             CenterTimer = SettingsHelper.ParseBool(element["CenterTimer"], false);
             TimingMethod = SettingsHelper.ParseString(element["TimingMethod"], "Current Timing Method");
+            TimingSystem = SettingsHelper.ParseString(element["TimingSystem"], "Standard");
 
             if (version >= new Version(1, 3))
                 OverrideSplitColors = SettingsHelper.ParseBool(element["OverrideSplitColors"]);
@@ -232,6 +241,7 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient) ^
             SettingsHelper.CreateSetting(document, parent, "CenterTimer", CenterTimer) ^
             SettingsHelper.CreateSetting(document, parent, "TimingMethod", TimingMethod) ^
+            SettingsHelper.CreateSetting(document, parent, "TimingSystem", TimingSystem) ^
             SettingsHelper.CreateSetting(document, parent, "DecimalsSize", DecimalsSize);
         }
 
